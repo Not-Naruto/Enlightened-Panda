@@ -1,4 +1,4 @@
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import logo from "../assets/logo.png";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -9,9 +9,8 @@ interface Props {
 }
 
 const NavBar = ({ colorMode, toggleColorMode }: Props) => {
-  console.log(colorMode);
   return (
-    <AppBar color="primary">
+    <AppBar position="static" sx={{ margin: 0 }} color="primary">
       <Toolbar color="inherit">
         <img width="100px" src={logo} />
         <Typography
@@ -23,11 +22,7 @@ const NavBar = ({ colorMode, toggleColorMode }: Props) => {
         >
           ENLIGHTENED PANDA
         </Typography>
-        <IconButton
-          sx={{ ml: 1, outline: 0 }}
-          onClick={toggleColorMode}
-          color="secondary"
-        >
+        <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="secondary">
           {colorMode === "dark" ? <NightsStayIcon /> : <LightModeIcon />}
         </IconButton>
       </Toolbar>

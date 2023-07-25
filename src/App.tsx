@@ -3,9 +3,10 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
+import FileInput from "./components/FileInput";
 
 function App() {
-  const [colorMode, setColorMode] = useState<"light" | "dark">("light");
+  const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
 
   const theme = createTheme(
     {
@@ -38,6 +39,7 @@ function App() {
           setColorMode(colorMode === "dark" ? "light" : "dark")
         }
       />
+      <FileInput />
     </ThemeProvider>
   );
 }

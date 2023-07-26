@@ -26,7 +26,11 @@ const Aside_drawer = ({ menuOpen, setMenuOpen }: Props) => {
           color: "primary",
         }}
       >
-        <IconButton sx={{ ml: 1 }} onClick={setMenuOpen} edge="start">
+        <IconButton
+          sx={{ ml: 1, color: "text.primary" }}
+          onClick={setMenuOpen}
+          edge="start"
+        >
           <MenuOpenIcon />
         </IconButton>
       </Toolbar>

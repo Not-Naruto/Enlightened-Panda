@@ -1,12 +1,22 @@
-import { Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
-const FileInput = () => {
-  console.log("hello");
+interface Props {
+  colorMode: string;
+}
+
+const FileInput = ({ colorMode }: Props) => {
   return (
     <>
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
+      <Typography variant="h2">Hello World</Typography>
+      <Box
+        sx={{
+          width: "40%",
+          height: "50%",
+          margin: "0 auto",
+          border: `dashed`,
+          borderRadius: 5,
+        }}
+      ></Box>
     </>
   );
 };

@@ -4,35 +4,61 @@ import NavBar from "./components/NavBar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Box, CssBaseline, Grid } from "@mui/material";
 import Aside_drawer from "./components/Aside_drawer";
+import FileInput from "./components/FileInput";
 
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const theme = createTheme(
-    {
-      palette: {
-        mode: colorMode,
-
-        primary: {
-          main: "#3f834a",
-        },
-        secondary: {
-          main: "#ffffff",
-        },
-        error: {
-          main: "#e5383b",
-        },
-        warning: {
-          main: "#f48c06",
-        },
+  const themeLight = createTheme({
+    typography: {
+      fontFamily: ["REM", "sans-serif"].join(","),
+    },
+    palette: {
+      primary: {
+        main: "#3f834a",
+      },
+      secondary: {
+        main: "#ffffff",
+      },
+      error: {
+        main: "#e5383b",
+      },
+      warning: {
+        main: "#f48c06",
       },
     },
-    [colorMode]
-  );
+  });
+
+  const themeDark = createTheme({
+    typography: {
+      fontFamily: ["REM", "sans-serif"].join(","),
+    },
+    palette: {
+      background: {
+        default: "#1c1c1c",
+        paper: "#121212",
+      },
+      text: {
+        primary: "#fff",
+      },
+      primary: {
+        main: "#3f834a",
+      },
+      secondary: {
+        main: "#ffffff",
+      },
+      error: {
+        main: "#e5383b",
+      },
+      warning: {
+        main: "#f48c06",
+      },
+    },
+  });
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={colorMode === "light" ? themeLight : themeDark}>
       <CssBaseline />
       <NavBar
         colorMode={colorMode}
@@ -50,22 +76,14 @@ function App() {
           <Box
             sx={{ backgroundColor: "primary.dark" }}
             width={"100%"}
-            height={"100px"}
+            height={"1000px"}
           ></Box>
         </Grid>
         <Grid item id="main" xs={12} sm={8} lg={8} xl={9}>
-          <Box
-            sx={{ backgroundColor: "secondary.dark" }}
-            width={"100%"}
-            height={"100px"}
-          ></Box>
+          <FileInput colorMode={colorMode} />
         </Grid>
         <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>
-          <Box
-            sx={{ backgroundColor: "error.dark" }}
-            width={"100%"}
-            height={"100px"}
-          ></Box>
+          <Box width={"100%"} height={"1000px"}></Box>
         </Grid>
       </Grid>
     </ThemeProvider>

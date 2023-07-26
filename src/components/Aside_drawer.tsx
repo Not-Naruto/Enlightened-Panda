@@ -44,6 +44,7 @@ const Aside_drawer = ({ menuOpen, setMenuOpen }: Props) => {
       variant="temporary"
       open={menuOpen}
       sx={{
+        display: { xs: "block", sm: "none" },
         "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
       }}
     >

@@ -3,10 +3,11 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import FileInput from "./components/FileInput";
+import Aside_drawer from "./components/Aside_drawer";
 
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const theme = createTheme(
     {
@@ -38,8 +39,12 @@ function App() {
         toggleColorMode={() =>
           setColorMode(colorMode === "dark" ? "light" : "dark")
         }
+        toggleMenu={() => setMenuOpen(!menuOpen)}
       />
-      <FileInput />
+      <Aside_drawer
+        menuOpen={menuOpen}
+        setMenuOpen={() => setMenuOpen(!menuOpen)}
+      />
     </ThemeProvider>
   );
 }

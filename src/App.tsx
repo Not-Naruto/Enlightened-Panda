@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { CssBaseline, Grid } from "@mui/material";
+import { Box, CssBaseline, Grid } from "@mui/material";
 import Aside_drawer from "./components/Aside_drawer";
 
 function App() {
@@ -45,6 +45,29 @@ function App() {
         menuOpen={menuOpen}
         setMenuOpen={() => setMenuOpen(!menuOpen)}
       />
+      <Grid container>
+        <Grid item id="aside" xs={0} sm={4} lg={2} xl={1.5}>
+          <Box
+            sx={{ backgroundColor: "primary.dark" }}
+            width={"100%"}
+            height={"100px"}
+          ></Box>
+        </Grid>
+        <Grid item id="main" xs={12} sm={8} lg={8} xl={9}>
+          <Box
+            sx={{ backgroundColor: "secondary.dark" }}
+            width={"100%"}
+            height={"100px"}
+          ></Box>
+        </Grid>
+        <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>
+          <Box
+            sx={{ backgroundColor: "error.dark" }}
+            width={"100%"}
+            height={"100px"}
+          ></Box>
+        </Grid>
+      </Grid>
     </ThemeProvider>
   );
 }

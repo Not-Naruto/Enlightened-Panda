@@ -15,6 +15,10 @@ function App() {
       fontFamily: ["REM", "sans-serif"].join(","),
     },
     palette: {
+      background: {
+        default: "#fff",
+        paper: "#F3F6FD",
+      },
       primary: {
         main: "#3f834a",
       },
@@ -23,6 +27,7 @@ function App() {
       },
       error: {
         main: "#e5383b",
+        dark: "#331A1A",
       },
       warning: {
         main: "#f48c06",
@@ -37,7 +42,7 @@ function App() {
     palette: {
       background: {
         default: "#1c1c1c",
-        paper: "#121212",
+        paper: "#333333",
       },
       text: {
         primary: "#fff",
@@ -50,6 +55,7 @@ function App() {
       },
       error: {
         main: "#e5383b",
+        dark: "#331A1A",
       },
       warning: {
         main: "#f48c06",
@@ -80,7 +86,7 @@ function App() {
           ></Box>
         </Grid>
         <Grid item id="main" xs={12} sm={8} lg={8} xl={9}>
-          <FileInput colorMode={colorMode} />
+          <FileInput />
         </Grid>
         <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>
           <Box width={"100%"} height={"1000px"}></Box>

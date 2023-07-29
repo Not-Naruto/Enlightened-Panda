@@ -2,7 +2,14 @@ import { useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Box, Button, CssBaseline, Grid, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  CssBaseline,
+  Grid,
+} from "@mui/material";
 import Aside_drawer from "./components/Aside_drawer";
 import FileInput from "./components/FileInput";
 import Overview from "./components/Overview";
@@ -11,6 +18,7 @@ function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
   const [menuOpen, setMenuOpen] = useState(false);
   const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const themeLight = createTheme({
     typography: {
@@ -68,6 +76,12 @@ function App() {
   return (
     <ThemeProvider theme={colorMode === "light" ? themeLight : themeDark}>
       <CssBaseline />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <NavBar
         colorMode={colorMode}
         toggleColorMode={() =>
@@ -89,7 +103,10 @@ function App() {
         </Grid>
         <Grid item id="main" xs={12} sm={8.5} lg={8} xl={9}>
           {data.length === 0 ? (
-            <FileInput setData={(res) => setData(res)} />
+            <FileInput
+              setData={(res) => setData(res)}
+              setLoading={(res: boolean) => setLoading(res)}
+            />
           ) : (
             <Overview data={data} />
           )}

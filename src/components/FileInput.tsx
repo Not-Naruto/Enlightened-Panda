@@ -13,9 +13,10 @@ import Papa from "papaparse";
 
 interface Props {
   setData: (data: any[]) => void;
+  setLoading: (l: boolean) => void;
 }
 
-const FileInput = ({ setData }: Props) => {
+const FileInput = ({ setData, setLoading }: Props) => {
   const FileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -29,6 +30,11 @@ const FileInput = ({ setData }: Props) => {
     if (file.type.split("/")[1] != "csv") {
       setError(true);
     } else {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+
       setError(false);
       parseFile(file);
     }
@@ -58,6 +64,10 @@ const FileInput = ({ setData }: Props) => {
     if (file.type.split("/")[1] != "csv") {
       setError(true);
     } else {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
       parseFile(file);
     }
   };

@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Box, Button, CssBaseline, Grid, Typography } from "@mui/material";
 import Aside_drawer from "./components/Aside_drawer";
 import FileInput from "./components/FileInput";
+import Overview from "./components/Overview";
 
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
@@ -49,7 +50,7 @@ function App() {
         primary: "#fff",
       },
       primary: {
-        main: "#3f834a",
+        main: "#2a5a33",
       },
       secondary: {
         main: "#ffffff",
@@ -79,18 +80,18 @@ function App() {
         setMenuOpen={() => setMenuOpen(!menuOpen)}
       />
       <Grid container>
-        <Grid item id="aside" xs={0} sm={4} lg={2} xl={1.5}>
+        <Grid item id="aside" xs={0} sm={3.5} lg={2} xl={1.5}>
           <Box
             sx={{ backgroundColor: "primary.dark" }}
             width={"100%"}
             height={"1000px"}
           ></Box>
         </Grid>
-        <Grid item id="main" xs={12} sm={8} lg={8} xl={9}>
+        <Grid item id="main" xs={12} sm={8.5} lg={8} xl={9}>
           {data.length === 0 ? (
             <FileInput setData={(res) => setData(res)} />
           ) : (
-            <Typography>Data is present</Typography>
+            <Overview data={data} />
           )}
 
           <Button onClick={() => console.log(data)}>Click</Button>

@@ -12,7 +12,7 @@ import { useRef, useState } from "react";
 import Papa from "papaparse";
 
 interface Props {
-  setData: ([]) => void;
+  setData: (data: any[]) => void;
 }
 
 const FileInput = ({ setData }: Props) => {

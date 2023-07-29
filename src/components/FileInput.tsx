@@ -25,11 +25,11 @@ const FileInput = ({ setData }: Props) => {
   };
 
   function onFileSelect(e: any) {
-    if (e.target.files[0].type.split("/")[1] != "csv") {
+    const file = e.target.files[0];
+    if (file.type.split("/")[1] != "csv") {
       setError(true);
     } else {
       setError(false);
-      const file = e.target.files[0];
       parseFile(file);
     }
   }
@@ -55,7 +55,11 @@ const FileInput = ({ setData }: Props) => {
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files[0];
-    parseFile(file);
+    if (file.type.split("/")[1] != "csv") {
+      setError(true);
+    } else {
+      parseFile(file);
+    }
   };
 
   return (

@@ -9,10 +9,16 @@ import {
 } from "@mui/material";
 import csvIcon from "../assets/csv.png";
 import { useRef, useState } from "react";
+import Papa from "papaparse";
 
-const FileInput = () => {
+interface Props {
+  setData: ([]) => void;
+}
+
+const FileInput = ({ setData }: Props) => {
   const FileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const selectFile = () => {
     FileInputRef.current?.click();
@@ -23,14 +29,45 @@ const FileInput = () => {
       setError(true);
     } else {
       setError(false);
+      const file = e.target.files[0];
+      parseFile(file);
     }
   }
 
+  const parseFile = (file: any) => {
+    Papa.parse(file, {
+      header: true,
+      complete: (results) => {
+        setData(results.data);
+      },
+    });
+  };
+
+  const onDragOver = (e: any) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+  const onDragLeave = (e: any) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+  const onDrop = (e: any) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    parseFile(file);
+  };
+
   return (
     <>
-      <Typography variant="h2">Hello World</Typography>
+      <Typography variant="h3" sx={{ margin: "20px", textAlign: "center" }}>
+        Upload csv file to get started
+      </Typography>
 
       <Box
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
         sx={{
           backgroundColor: "background.paper",
           margin: "0 auto",
@@ -54,44 +91,49 @@ const FileInput = () => {
             overflow: "hidden",
           }}
         >
-          <Stack sx={{ justifyItems: "center" }} spacing={2}>
-            <img src={csvIcon} width={"100px"} style={{ margin: "0 auto" }} />
-            <Typography variant="h5" textAlign={"center"}>
-              Drag csv file here to upload
-            </Typography>
-            <Divider
-              sx={{
-                "&::before, &::after": {
-                  borderColor: "text.primary",
-                },
-              }}
-            >
-              <Typography variant="h5" color="text.primary">
-                OR
+          {isDragging ? (
+            <Typography>Drop Files Here</Typography>
+          ) : (
+            <Stack sx={{ justifyItems: "center" }} spacing={2}>
+              <img src={csvIcon} width={"100px"} style={{ margin: "0 auto" }} />
+              <Typography variant="h5" textAlign={"center"}>
+                Drag csv file here to upload
               </Typography>
-            </Divider>
-            <input
-              name="file"
-              type="file"
-              id="file"
-              style={{ display: "none" }}
-              ref={FileInputRef}
-              onChange={onFileSelect}
-            />
-            <Button variant="outlined" onClick={selectFile}>
-              <strong>Browse</strong>
-            </Button>
-            {error && (
-              <Alert
-                severity="error"
-                variant="outlined"
-                sx={{ backgroundColor: "error.dark", color: "#C29A9A" }}
+              <Divider
+                sx={{
+                  "&::before, &::after": {
+                    borderColor: "text.primary",
+                  },
+                }}
               >
-                <AlertTitle>Error</AlertTitle>
-                Please select a <strong>CSV</strong> file
-              </Alert>
-            )}
-          </Stack>
+                <Typography variant="h5" color="text.primary">
+                  OR
+                </Typography>
+              </Divider>
+              <input
+                name="file"
+                type="file"
+                id="file"
+                style={{ display: "none" }}
+                ref={FileInputRef}
+                onChange={onFileSelect}
+                accept=".csv"
+              />
+              <Button variant="outlined" onClick={selectFile}>
+                <strong>Browse</strong>
+              </Button>
+              {error && (
+                <Alert
+                  severity="error"
+                  variant="outlined"
+                  sx={{ backgroundColor: "error.dark", color: "#C29A9A" }}
+                >
+                  <AlertTitle>Error</AlertTitle>
+                  Please select a <strong>CSV</strong> file
+                </Alert>
+              )}
+            </Stack>
+          )}
         </Box>
       </Box>
     </>

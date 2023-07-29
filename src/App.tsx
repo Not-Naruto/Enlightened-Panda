@@ -2,13 +2,14 @@ import { useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Box, CssBaseline, Grid } from "@mui/material";
+import { Box, Button, CssBaseline, Grid } from "@mui/material";
 import Aside_drawer from "./components/Aside_drawer";
 import FileInput from "./components/FileInput";
 
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [data, setData] = useState<Iterable<any>>([]);
 
   const themeLight = createTheme({
     typography: {
@@ -86,7 +87,8 @@ function App() {
           ></Box>
         </Grid>
         <Grid item id="main" xs={12} sm={8} lg={8} xl={9}>
-          <FileInput />
+          <FileInput setData={(res) => setData(res)} />
+          <Button onClick={() => console.log(data)}>Click</Button>
         </Grid>
         <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>
           <Box width={"100%"} height={"1000px"}></Box>

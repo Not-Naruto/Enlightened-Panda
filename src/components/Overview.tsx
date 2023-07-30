@@ -1,6 +1,17 @@
-import { Box, Divider, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DataTypesCode from "./DataTypesCode";
+import FormatListNumberedOutlinedIcon from "@mui/icons-material/FormatListNumberedOutlined";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 
 interface Props {
   data: any[];
@@ -28,9 +39,32 @@ function generateRows(data: any[]) {
   return rows;
 }
 
+function getDataTypes(columns: any) {
+  const DataTypes: string[][] = [];
+  for (const key in columns) {
+    try {
+      var value = eval(columns[key]);
+    } catch {
+      var value = columns[key];
+    }
+    if (typeof value === "number" && Number.isInteger(value)) {
+      DataTypes.push([key, "integer"]);
+    } else if (typeof value === "number") {
+      DataTypes.push([key, "float"]);
+    } else if (typeof value === "boolean") {
+      DataTypes.push([key, "boolean"]);
+    } else {
+      DataTypes.push([key, "string"]);
+    }
+  }
+  console.log(DataTypes);
+  return DataTypes;
+}
+
 const Overview = ({ data, file }: Props) => {
   const columns: GridColDef[] = generateColumns(data);
   const rows = generateRows(data);
+
   return (
     <>
       <Box
@@ -68,10 +102,35 @@ const Overview = ({ data, file }: Props) => {
           variant="middle"
           sx={{ my: 5, bgcolor: "text.primary" }}
         ></Divider>
+
         <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
           Data Types
         </Typography>
-        <DataTypesCode file={file} />
+        <DataTypesCode fileName={file.name} />
+        <List sx={{ marginTop: 3 }}>
+          {getDataTypes(data[0]).map((item) => {
+            return (
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar sx={{ bgcolor: "primary.dark" }}>
+                    {item[1] === "integer" || item[1] === "float" ? (
+                      <FormatListNumberedOutlinedIcon
+                        sx={{ color: "#c1d4c6" }}
+                      />
+                    ) : (
+                      <CategoryOutlinedIcon sx={{ color: "#c1d4c6" }} />
+                    )}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={`[${item[1]}] - ${item[0]}`} />
+              </ListItem>
+            );
+          })}
+        </List>
+        <Divider
+          variant="middle"
+          sx={{ my: 5, bgcolor: "text.primary" }}
+        ></Divider>
       </Box>
     </>
   );

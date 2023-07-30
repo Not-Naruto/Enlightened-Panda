@@ -6,14 +6,15 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { useState } from "react";
 
 interface Props {
-  file: File;
+  fileName: string;
 }
 
-const DataTypesCode = ({ file }: Props) => {
+const DataTypesCode = ({ fileName }: Props) => {
   const [copy, setCopy] = useState(false);
 
   const codeString = `import pandas as pd 
-df = pd.read_csv("${file.name}") 
+  
+df = pd.read_csv("${fileName}") 
 print(df.dtypes)`;
 
   const handleClick = () => {

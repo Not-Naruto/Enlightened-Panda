@@ -17,6 +17,7 @@ import Overview from "./components/Overview";
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [file, setFile] = useState<File>();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -26,8 +27,9 @@ function App() {
     },
     palette: {
       background: {
-        default: "#fff",
-        paper: "#F3F6FD",
+        default: "#FAF9F6",
+        paper: "#b8a797",
+        // paper: "#F3F6FD",
       },
       primary: {
         main: "#3f834a",
@@ -77,7 +79,10 @@ function App() {
     <ThemeProvider theme={colorMode === "light" ? themeLight : themeDark}>
       <CssBaseline />
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          color: "primary.main",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
         open={loading}
       >
         <CircularProgress color="inherit" />
@@ -98,23 +103,25 @@ function App() {
           <Box
             sx={{ backgroundColor: "primary.dark" }}
             width={"100%"}
-            height={"1000px"}
+            minHeight={"100vh"}
+            height={"100%"}
           ></Box>
         </Grid>
         <Grid item id="main" xs={12} sm={8.5} lg={8} xl={9}>
-          {data.length === 0 ? (
+          {file ? (
+            <Overview data={data} file={file} />
+          ) : (
             <FileInput
               setData={(res) => setData(res)}
               setLoading={(res: boolean) => setLoading(res)}
+              setFile={(res: any) => setFile(res)}
             />
-          ) : (
-            <Overview data={data} />
           )}
 
           <Button onClick={() => console.log(data)}>Click</Button>
         </Grid>
         <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>
-          <Box width={"100%"} height={"1000px"}></Box>
+          <Box width={"100%"} minHeight={"100vh"} height={"100%"}></Box>
         </Grid>
       </Grid>
     </ThemeProvider>

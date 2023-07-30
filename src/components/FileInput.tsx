@@ -14,9 +14,10 @@ import Papa from "papaparse";
 interface Props {
   setData: (data: any[]) => void;
   setLoading: (l: boolean) => void;
+  setFile: (res: File) => void;
 }
 
-const FileInput = ({ setData, setLoading }: Props) => {
+const FileInput = ({ setData, setLoading, setFile }: Props) => {
   const FileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -44,6 +45,7 @@ const FileInput = ({ setData, setLoading }: Props) => {
     Papa.parse(file, {
       header: true,
       complete: (results) => {
+        setFile(file);
         setData(results.data);
       },
     });
@@ -86,6 +88,8 @@ const FileInput = ({ setData, setLoading }: Props) => {
           backgroundColor: "background.paper",
           margin: "0 auto",
           height: "50%",
+          maxHeight: "580px",
+          minHeight: "380px",
           width: { xs: "80%", md: "60%", lg: "40%" },
           borderRadius: 10,
           display: "flex",

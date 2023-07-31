@@ -203,6 +203,10 @@ const Overview = ({ data, file }: Props) => {
             </Typography>
           </>
         )}
+
+        <Typography variant="h4" sx={{ my: 3 }}>
+          Missing Values per Column
+        </Typography>
       </Box>
     </>
   );

@@ -6,6 +6,7 @@ import {
   List,
   ListItem,
   ListItemAvatar,
+  ListItemIcon,
   ListItemText,
   Stack,
   Typography,
@@ -14,7 +15,9 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DataTypesCode from "./DataTypesCode";
 import FormatListNumberedOutlinedIcon from "@mui/icons-material/FormatListNumberedOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import ReportIcon from "@mui/icons-material/Report";
 import TotalMissingCode from "./MissingCode/TotalMissingCode";
+import MissingPerColumnCode from "./MissingCode/MissingPerColumnCode";
 
 interface Props {
   data: any[];
@@ -67,6 +70,7 @@ function countMissingValues(objects: any[]) {
   let missingValuesCount = 0;
   let total = 0;
   const missingPerColumn: any = {};
+  let rows = 0;
 
   objects.forEach((row) => {
     Object.keys(row).forEach((col) => {
@@ -76,13 +80,18 @@ function countMissingValues(objects: any[]) {
         missingPerColumn[col] = (missingPerColumn[col] || 0) + 1;
       }
     });
+    rows++;
   });
-  return [
-    missingValuesCount,
-    total,
-    (missingValuesCount * 100) / total,
-    missingPerColumn,
-  ];
+
+  const final = {
+    missingValuesCount: missingValuesCount,
+    total: total,
+    missingPercentage: (missingValuesCount * 100) / total,
+    missingPerColumn: missingPerColumn,
+    rows: rows,
+  };
+
+  return final;
 }
 
 const Overview = ({ data, file }: Props) => {
@@ -174,19 +183,23 @@ const Overview = ({ data, file }: Props) => {
         </Typography>
         <TotalMissingCode fileName={file.name} />
         <Typography sx={{ marginTop: 3 }}>
-          Total Missing Values: {missing[0]}
+          Total Missing Values: {missing.missingValuesCount}
         </Typography>
 
-        {missing[2] < 5 ? (
+        {missing.missingPercentage < 5 ? (
           <Typography>
             Percentage:{" "}
-            <span style={{ color: "#3f834a" }}>{missing[2].toFixed(2)}%</span>
+            <span style={{ color: "#3f834a" }}>
+              {missing.missingPercentage.toFixed(2)}%
+            </span>
           </Typography>
-        ) : missing[2] < 20 ? (
+        ) : missing.missingPercentage < 20 ? (
           <>
             <Typography>
               Percentage:{" "}
-              <span style={{ color: "#f48c06" }}>{missing[2].toFixed(2)}%</span>
+              <span style={{ color: "#f48c06" }}>
+                {missing.missingPercentage.toFixed(2)}%
+              </span>
             </Typography>
             <Typography sx={{ color: "warning.main", marginTop: 2 }}>
               Consider Imputing Missing Values before performing Operations
@@ -196,7 +209,9 @@ const Overview = ({ data, file }: Props) => {
           <>
             <Typography>
               Percentage:{" "}
-              <span style={{ color: "#e5383b" }}>{missing[2].toFixed(2)}%</span>
+              <span style={{ color: "#e5383b" }}>
+                {missing.missingPercentage.toFixed(2)}%
+              </span>
             </Typography>
             <Typography sx={{ color: "error.main", marginTop: 2 }}>
               Dataset is not reliable due to excessive missing values
@@ -204,9 +219,103 @@ const Overview = ({ data, file }: Props) => {
           </>
         )}
 
-        <Typography variant="h4" sx={{ my: 3 }}>
+        <Typography variant="h4" sx={{ my: 3, marginTop: 5 }}>
           Missing Values per Column
         </Typography>
+        <MissingPerColumnCode fileName={file.name} />
+
+        <Stack direction="row" spacing={5} marginY={2}>
+          <Typography>
+            <strong>Legend:</strong>
+          </Typography>
+          <Stack direction="row">
+            <ReportIcon sx={{ color: "error.main" }} />
+            <Typography>Consider Dropping Column</Typography>
+          </Stack>
+          <Stack direction="row">
+            <ReportIcon sx={{ color: "warning.main" }} />
+            <Typography>Impute missing values with mean/median/mode</Typography>
+          </Stack>
+          <Stack direction="row">
+            <ReportIcon sx={{ color: "primary.main" }} />
+            <Typography>No changes necessary</Typography>
+          </Stack>
+        </Stack>
+
+        <List sx={{ marginTop: 3 }}>
+          {Object.keys(missing.missingPerColumn).map((col) => (
+            <ListItem key={col}>
+              {(missing.missingPerColumn[col] * 100) / missing.rows > 20 ? (
+                <>
+                  <ListItemIcon>
+                    <ReportIcon sx={{ color: "error.main" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <Typography>
+                        <span style={{ fontWeight: "bold" }}>{col} - </span>
+                        {missing.missingPerColumn[col]} Missing values
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography sx={{ color: "error.main" }}>{`${(
+                        (missing.missingPerColumn[col] * 100) /
+                        missing.rows
+                      ).toFixed(2)}% missing`}</Typography>
+                    }
+                  />
+                </>
+              ) : (missing.missingPerColumn[col] * 100) / missing.rows > 5 ? (
+                <>
+                  <ListItemIcon>
+                    <ReportIcon sx={{ color: "warning.main" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <Typography>
+                        <span style={{ fontWeight: "bold" }}>{col} - </span>
+                        {missing.missingPerColumn[col]} Missing values
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography sx={{ color: "warning.main" }}>{`${(
+                        (missing.missingPerColumn[col] * 100) /
+                        missing.rows
+                      ).toFixed(2)}% missing`}</Typography>
+                    }
+                  />
+                </>
+              ) : (
+                <>
+                  <ListItemIcon>
+                    <ReportIcon sx={{ color: "primary.main" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <Typography>
+                        <span style={{ fontWeight: "bold" }}>{col} - </span>
+                        {missing.missingPerColumn[col]} Missing values
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography sx={{ color: "primary.main" }}>{`${(
+                        (missing.missingPerColumn[col] * 100) /
+                        missing.rows
+                      ).toFixed(2)}% missing`}</Typography>
+                    }
+                  />
+                </>
+              )}
+            </ListItem>
+          ))}
+        </List>
+        <Divider
+          variant="middle"
+          sx={{ my: 5, bgcolor: "text.primary" }}
+        ></Divider>
       </Box>
     </>
   );

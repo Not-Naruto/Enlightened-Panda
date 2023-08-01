@@ -5,14 +5,13 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {
   Backdrop,
   Box,
-  Button,
   CircularProgress,
   CssBaseline,
   Grid,
 } from "@mui/material";
 import Aside_drawer from "./components/Aside_drawer";
 import FileInput from "./components/FileInput";
-import Overview from "./components/Overview";
+import Details from "./components/Details";
 
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
@@ -108,7 +107,7 @@ function App() {
         </Grid>
         <Grid item id="main" xs={12} sm={8.5} lg={8} xl={9}>
           {file ? (
-            <Overview data={data} file={file} />
+            <Details data={data} file={file} />
           ) : (
             <FileInput
               setData={(res) => setData(res)}
@@ -117,7 +116,7 @@ function App() {
             />
           )}
 
-          <Button onClick={() => console.log(data)}>Click</Button>
+          {/* <Button onClick={() => console.log(data)}>Click</Button> */}
         </Grid>
         <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>
           <Box width={"100%"} minHeight={"100vh"} height={"100%"}></Box>

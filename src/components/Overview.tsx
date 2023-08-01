@@ -225,18 +225,15 @@ const Overview = ({ data, file }: Props) => {
         <MissingPerColumnCode fileName={file.name} />
 
         <Stack direction="row" spacing={5} marginY={2}>
-          <Typography>
-            <strong>Legend:</strong>
-          </Typography>
-          <Stack direction="row">
+          <Stack direction="row" spacing={1}>
             <ReportIcon sx={{ color: "error.main" }} />
             <Typography>Consider Dropping Column</Typography>
           </Stack>
-          <Stack direction="row">
+          <Stack direction="row" spacing={1}>
             <ReportIcon sx={{ color: "warning.main" }} />
             <Typography>Impute missing values with mean/median/mode</Typography>
           </Stack>
-          <Stack direction="row">
+          <Stack direction="row" spacing={1}>
             <ReportIcon sx={{ color: "primary.main" }} />
             <Typography>No changes necessary</Typography>
           </Stack>

@@ -1,10 +1,19 @@
 import { MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import Overview from "./Overview";
+import CategoricalColumn from "./CategoricalColumn";
 
 interface Props {
   data: any[];
   file: File;
+}
+
+function getDataType(variable: string) {
+  try {
+    return typeof eval(variable.toLowerCase());
+  } catch {
+    return "string";
+  }
 }
 
 const Details = ({ data, file }: Props) => {
@@ -38,8 +47,10 @@ const Details = ({ data, file }: Props) => {
 
       {selected === "Overview" ? (
         <Overview data={data} file={file} />
+      ) : getDataType(data[0][selected]) === "number" ? (
+        <div>Numeric</div>
       ) : (
-        <div>Something Else</div>
+        <CategoricalColumn data={data} column={selected} />
       )}
     </>
   );

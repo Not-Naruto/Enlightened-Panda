@@ -1,8 +1,12 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, MenuItem, Select, Typography } from "@mui/material";
 import { Datum } from "plotly.js";
 import Plot from "react-plotly.js";
+import BarGraphCode from "./ColumnCode/BarGraphCode";
+import { useState } from "react";
+import PieChartCode from "./ColumnCode/PieChartCode";
 
 interface Props {
+  fileName: string;
   data: { [key: string]: any }[];
   column: string;
 }
@@ -28,7 +32,8 @@ const generate_XY = (data: { [key: string]: any }[], column: string) => {
   return [x, y];
 };
 
-const CategoricalColumn = ({ data, column }: Props) => {
+const CategoricalColumn = ({ data, column, fileName }: Props) => {
+  const [graphType, setGraphType] = useState("Bar Graph");
   const info = generate_XY(data, column);
   const x_values = info[0] as Datum[];
   const y_values = info[1] as Datum[];
@@ -48,33 +53,89 @@ const CategoricalColumn = ({ data, column }: Props) => {
         <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
           Graph
         </Typography>
-        <Box
+
+        <Select
           sx={{
-            display: "inline-block",
+            marginBottom: 3,
+            overflow: "hidden",
+            borderRadius: "15px",
+            height: "40px",
+            width: "200px",
             bgcolor: "primary.light",
-            padding: 3,
           }}
+          value={graphType}
         >
-          <Plot
-            data={[
-              {
-                x: [...x_values],
-                y: [...y_values],
-                type: "bar",
-                mode: "lines+markers",
-                marker: { color: "  #2a5a33" },
-              },
-            ]}
-            layout={{
-              yaxis: {
-                title: { text: "<b>Frequency<b>", standoff: 50 },
-              },
-              xaxis: { title: { text: `<b>${column}<b>`, standoff: 50 } },
-              title: "<b>Frequency Graph<b>",
-            }}
-          />
-          ;
-        </Box>
+          <MenuItem value="Bar Graph" onClick={() => setGraphType("Bar Graph")}>
+            Bar Graph
+          </MenuItem>
+          <MenuItem value="Pie Chart" onClick={() => setGraphType("Pie Chart")}>
+            Pie Chart
+          </MenuItem>
+        </Select>
+
+        {graphType === "Bar Graph" ? (
+          <>
+            <BarGraphCode fileName={fileName} column={column} />
+            <Box
+              sx={{
+                display: "inline-block",
+                bgcolor: "primary.light",
+                borderRadius: 2,
+                padding: 2,
+                marginTop: 3,
+              }}
+            >
+              <Plot
+                data={[
+                  {
+                    x: [...x_values],
+                    y: [...y_values],
+                    type: "bar",
+                    mode: "lines+markers",
+                    marker: { color: "  #2a5a33" },
+                  },
+                ]}
+                layout={{
+                  yaxis: {
+                    title: { text: "<b>Frequency<b>", standoff: 50 },
+                  },
+                  xaxis: { title: { text: `<b>${column}<b>`, standoff: 50 } },
+                  title: "<b>Frequency Graph<b>",
+                }}
+              />
+            </Box>
+          </>
+        ) : (
+          <>
+            <PieChartCode fileName={fileName} column={column} />
+            <Box
+              sx={{
+                display: "inline-block",
+                bgcolor: "primary.light",
+                borderRadius: 2,
+                padding: 2,
+                marginTop: 3,
+              }}
+            >
+              <Plot
+                data={[
+                  {
+                    labels: [...x_values],
+                    values: [...y_values],
+                    type: "pie",
+                  },
+                ]}
+                layout={{
+                  // yaxis: {
+                  //   title: { text: "<b>Frequency<b>", standoff: 50 },
+                  // },
+                  // xaxis: { title: { text: `<b>${column}<b>`, standoff: 50 } },
+                  title: "<b>Pie Chart<b>",
+                }}
+              />
+            </Box>
+          </>
+        )}
       </Box>
     </>
   );

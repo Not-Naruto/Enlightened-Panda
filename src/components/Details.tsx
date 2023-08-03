@@ -50,7 +50,7 @@ const Details = ({ data, file }: Props) => {
       ) : getDataType(data[0][selected]) === "number" ? (
         <div>Numeric</div>
       ) : (
-        <CategoricalColumn data={data} column={selected} />
+        <CategoricalColumn data={data} column={selected} fileName={file.name} />
       )}
     </>
   );

@@ -21,7 +21,7 @@ const CodeComponent = ({ codeString }: Props) => {
   };
 
   return (
-    <div style={{ borderRadius: "10px", overflow: "hidden" }}>
+    <div style={{ borderRadius: "10px", overflow: "hidden", height: "99%" }}>
       <div
         style={{
           display: "flex",
@@ -82,6 +82,7 @@ const CodeComponent = ({ codeString }: Props) => {
         customStyle={{
           margin: 0,
           padding: "10px",
+          height: "100%",
         }}
         wrapLongLines={true}
       >

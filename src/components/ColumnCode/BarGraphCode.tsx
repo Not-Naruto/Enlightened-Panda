@@ -13,9 +13,9 @@ df = pd.read_csv("${fileName}")
 data = df["${column}"].value_counts()
 
 plt.bar(data.index, data.values)
-plt.xlabel = "${column}"
-plt.ylabel = "Frequency"
-plt.title = "Frequency Graph"
+plt.xlabel("${column}")
+plt.ylabel("Frequency")
+plt.title("Frequency Graph")
 
 plt.show()
 `;

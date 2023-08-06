@@ -1,9 +1,17 @@
-import { Box, Divider, MenuItem, Select, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Grid,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import { Datum } from "plotly.js";
 import Plot from "react-plotly.js";
 import BarGraphCode from "./ColumnCode/BarGraphCode";
 import { useState } from "react";
 import PieChartCode from "./ColumnCode/PieChartCode";
+import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
 
 interface Props {
   fileName: string;
@@ -74,68 +82,85 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
         </Select>
 
         {graphType === "Bar Graph" ? (
-          <>
-            <BarGraphCode fileName={fileName} column={column} />
-            <Box
-              sx={{
-                display: "inline-block",
-                bgcolor: "primary.light",
-                borderRadius: 2,
-                padding: 2,
-                marginTop: 3,
-              }}
-            >
-              <Plot
-                data={[
-                  {
-                    x: [...x_values],
-                    y: [...y_values],
-                    type: "bar",
-                    mode: "lines+markers",
-                    marker: { color: "  #2a5a33" },
-                  },
-                ]}
-                layout={{
-                  yaxis: {
-                    title: { text: "<b>Frequency<b>", standoff: 50 },
-                  },
-                  xaxis: { title: { text: `<b>${column}<b>`, standoff: 50 } },
-                  title: "<b>Frequency Graph<b>",
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={7} xl={5}>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "500px",
+                  display: "inline-block",
+                  bgcolor: "primary.light",
+                  borderRadius: 2,
+                  padding: 2,
                 }}
-              />
-            </Box>
-          </>
+              >
+                <Plot
+                  data={[
+                    {
+                      x: [...x_values],
+                      y: [...y_values],
+                      type: "bar",
+                      mode: "lines+markers",
+                      marker: { color: "  #2a5a33" },
+                    },
+                  ]}
+                  layout={{
+                    yaxis: {
+                      title: { text: "<b>Frequency<b>", standoff: 50 },
+                    },
+                    xaxis: { title: { text: `<b>${column}<b>`, standoff: 50 } },
+                    title: "<b>Frequency Graph<b>",
+                  }}
+                  config={{ responsive: true }}
+                  useResizeHandler={true}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={5} xl={7}>
+              <BarGraphCode fileName={fileName} column={column} />
+            </Grid>
+          </Grid>
         ) : (
-          <>
-            <PieChartCode fileName={fileName} column={column} />
-            <Box
-              sx={{
-                display: "inline-block",
-                bgcolor: "primary.light",
-                borderRadius: 2,
-                padding: 2,
-                marginTop: 3,
-              }}
-            >
-              <Plot
-                data={[
-                  {
-                    labels: [...x_values],
-                    values: [...y_values],
-                    type: "pie",
-                  },
-                ]}
-                layout={{
-                  // yaxis: {
-                  //   title: { text: "<b>Frequency<b>", standoff: 50 },
-                  // },
-                  // xaxis: { title: { text: `<b>${column}<b>`, standoff: 50 } },
-                  title: "<b>Pie Chart<b>",
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={7} xl={5}>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "500px",
+                  display: "inline-block",
+                  bgcolor: "primary.light",
+                  borderRadius: 2,
+                  padding: 2,
                 }}
-              />
-            </Box>
-          </>
+              >
+                <Plot
+                  data={[
+                    {
+                      labels: [...x_values],
+                      values: [...y_values],
+                      type: "pie",
+                    },
+                  ]}
+                  layout={{
+                    title: "<b>Pie Chart<b>",
+                    autosize: true,
+                  }}
+                  config={{ responsive: true }}
+                  useResizeHandler={true}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={5} xl={7}>
+              <PieChartCode fileName={fileName} column={column} />
+            </Grid>
+          </Grid>
         )}
+        <Divider
+          variant="middle"
+          sx={{ my: 5, bgcolor: "text.primary" }}
+        ></Divider>
       </Box>
     </>
   );

@@ -13,6 +13,7 @@ df = pd.read_csv("${fileName}")
 data = df["${column}"].value_counts()
 
 plt.pie(data.values, labels = data.index)
+plt.title("Pie Chart")
 plt.show()`;
   return <CodeComponent codeString={code} />;
 };

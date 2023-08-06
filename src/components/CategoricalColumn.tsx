@@ -4,11 +4,6 @@ import {
   Grid,
   MenuItem,
   Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Typography,
 } from "@mui/material";
 import { Datum } from "plotly.js";

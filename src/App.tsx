@@ -27,7 +27,7 @@ function App() {
     palette: {
       background: {
         default: "#FAF9F6",
-        paper: "#b8a797",
+        paper: "#f5eadf",
       },
       primary: {
         main: "#3f834a",

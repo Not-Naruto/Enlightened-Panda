@@ -4,6 +4,11 @@ import {
   Grid,
   MenuItem,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
 import { Datum } from "plotly.js";
@@ -11,7 +16,8 @@ import Plot from "react-plotly.js";
 import BarGraphCode from "./ColumnCode/BarGraphCode";
 import { useState } from "react";
 import PieChartCode from "./ColumnCode/PieChartCode";
-import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
+import FrequencyTableCode from "./ColumnCode/FrequencyTableCode";
+import { DataGrid } from "@mui/x-data-grid";
 
 interface Props {
   fileName: string;
@@ -40,11 +46,38 @@ const generate_XY = (data: { [key: string]: any }[], column: string) => {
   return [x, y];
 };
 
+const generateRows = (x: Datum[], y: Datum[]) => {
+  let rows: any[] = [];
+  for (let i = 0; i < x.length; i++) {
+    const row = { id: i, Value: x[i] as String, Frequency: y[i] as Number };
+    rows = [...rows, row];
+  }
+  return rows;
+};
+
 const CategoricalColumn = ({ data, column, fileName }: Props) => {
   const [graphType, setGraphType] = useState("Bar Graph");
   const info = generate_XY(data, column);
   const x_values = info[0] as Datum[];
   const y_values = info[1] as Datum[];
+
+  const columns = [
+    {
+      field: "Value",
+      headerName: "Value",
+      headerClassName: "TableHead",
+      flex: 1,
+    },
+    {
+      field: "Frequency",
+      headerName: "Frequency",
+      headerClassName: "TableHead",
+      flex: 1,
+    },
+  ];
+
+  const rows = generateRows(x_values, y_values);
+
   return (
     <>
       <Box sx={{ margin: 5 }}>
@@ -82,7 +115,7 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
         </Select>
 
         {graphType === "Bar Graph" ? (
-          <Grid container spacing={2}>
+          <Grid container spacing={2} justifyContent="space-between">
             <Grid item xs={12} md={7} xl={5}>
               <Box
                 sx={{
@@ -117,12 +150,12 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
                 />
               </Box>
             </Grid>
-            <Grid item xs={12} md={5} xl={7}>
+            <Grid item xs={12} md={5} xl={6}>
               <BarGraphCode fileName={fileName} column={column} />
             </Grid>
           </Grid>
         ) : (
-          <Grid container spacing={2}>
+          <Grid container spacing={2} justifyContent="space-between">
             <Grid item xs={12} md={7} xl={5}>
               <Box
                 sx={{
@@ -152,11 +185,54 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
                 />
               </Box>
             </Grid>
-            <Grid item xs={12} md={5} xl={7}>
+            <Grid item xs={12} md={5} xl={6}>
               <PieChartCode fileName={fileName} column={column} />
             </Grid>
           </Grid>
         )}
+        <Divider
+          variant="middle"
+          sx={{ my: 5, bgcolor: "text.primary" }}
+        ></Divider>
+        <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
+          Frequency Distribution Table
+        </Typography>
+        <Grid container spacing={2} justifyContent="space-between">
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{
+              "& .TableHead": {
+                bgcolor: "primary.main",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                "& .TableHead": {
+                  bgcolor: "primary.main",
+                },
+              }}
+            >
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                sx={{ bgcolor: "background.paper" }}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: 0, pageSize: 5 },
+                  },
+                }}
+                pageSizeOptions={[5, 10, 25]}
+                disableRowSelectionOnClick
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={8} xl={6}>
+            <FrequencyTableCode fileName={fileName} column={column} />
+          </Grid>
+        </Grid>
         <Divider
           variant="middle"
           sx={{ my: 5, bgcolor: "text.primary" }}

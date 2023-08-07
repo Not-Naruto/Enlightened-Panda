@@ -20,17 +20,35 @@ interface Props {
   column: string;
 }
 
+function findModes(x: any[], y: any[]): number[] {
+  const modes: number[] = [];
+  let maxFrequency = 0;
+
+  for (let i = 0; i < y.length; i++) {
+    if (y[i] > maxFrequency) {
+      maxFrequency = y[i];
+      modes.length = 0;
+      modes.push(x[i]);
+    } else if (y[i] === maxFrequency) {
+      modes.push(x[i]);
+    }
+  }
+
+  return modes;
+}
+
 const generate_XY = (data: { [key: string]: any }[], column: string) => {
   const info: any = {};
   for (let i = 0; i < data.length; i++) {
     let row = data[i];
     if (row[column] in info) {
       info[row[column]] = info[row[column]] + 1;
-    } else {
+    } else if (row[column].trim()) {
       info[row[column]] = 1;
     }
   }
   delete info[""];
+  console.log(info);
   let x: String[] = [];
   let y: Number[] = [];
 
@@ -45,7 +63,7 @@ const generateRows = (x: Datum[], y: Datum[]) => {
   let rows: any[] = [];
   for (let i = 0; i < x.length; i++) {
     const row = { id: i, Value: x[i] as String, Frequency: y[i] as Number };
-    rows = [...rows, row];
+    rows.push(row);
   }
   return rows;
 };
@@ -228,6 +246,9 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
             <FrequencyTableCode fileName={fileName} column={column} />
           </Grid>
         </Grid>
+        <Typography sx={{ marginTop: 3 }}>
+          Mode(s): {findModes(x_values, y_values).join(", ")}
+        </Typography>
         <Divider
           variant="middle"
           sx={{ my: 5, bgcolor: "text.primary" }}

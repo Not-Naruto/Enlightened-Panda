@@ -44,6 +44,7 @@ const FileInput = ({ setData, setLoading, setFile }: Props) => {
   const parseFile = (file: any) => {
     Papa.parse(file, {
       header: true,
+      skipEmptyLines: true,
       complete: (results) => {
         setFile(file);
         setData(results.data);

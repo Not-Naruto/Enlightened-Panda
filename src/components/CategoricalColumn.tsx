@@ -13,6 +13,7 @@ import { useState } from "react";
 import PieChartCode from "./ColumnCode/PieChartCode";
 import FrequencyTableCode from "./ColumnCode/FrequencyTableCode";
 import { DataGrid } from "@mui/x-data-grid";
+import MissingColumnCode from "./MissingCode/MissingColumnCode";
 
 interface Props {
   fileName: string;
@@ -39,13 +40,17 @@ function findModes(x: any[], y: any[]): number[] {
 
 const generate_XY = (data: { [key: string]: any }[], column: string) => {
   const info: any = {};
+  let missing: number[] = [0, 0];
   for (let i = 0; i < data.length; i++) {
     let row = data[i];
     if (row[column] in info) {
       info[row[column]] = info[row[column]] + 1;
     } else if (row[column].trim()) {
       info[row[column]] = 1;
+    } else {
+      missing[0] = missing[0] + 1;
     }
+    missing[1] = missing[1] + 1;
   }
   delete info[""];
   console.log(info);
@@ -56,7 +61,7 @@ const generate_XY = (data: { [key: string]: any }[], column: string) => {
     x.push(value);
     y.push(info[value]);
   });
-  return [x, y];
+  return [x, y, missing];
 };
 
 const generateRows = (x: Datum[], y: Datum[]) => {
@@ -73,6 +78,9 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
   const info = generate_XY(data, column);
   const x_values = info[0] as Datum[];
   const y_values = info[1] as Datum[];
+
+  const missing: number = info[2][0] as number;
+  const total: number = info[2][1] as number;
 
   const columns = [
     {
@@ -249,6 +257,51 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
         <Typography sx={{ marginTop: 3 }}>
           Mode(s): {findModes(x_values, y_values).join(", ")}
         </Typography>
+        <Divider
+          variant="middle"
+          sx={{ my: 5, bgcolor: "text.primary" }}
+        ></Divider>
+        <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
+          Missing Values
+        </Typography>
+        <MissingColumnCode fileName={fileName} column={column} />
+        <Typography sx={{ marginTop: 3 }}>
+          Missing values in {column}: {missing}
+        </Typography>
+
+        {(missing * 100) / total < 5 ? (
+          <Typography>
+            Percentage:{" "}
+            <span style={{ color: "#3f834a" }}>
+              {((missing * 100) / total).toFixed(2)}%
+            </span>
+          </Typography>
+        ) : (missing * 100) / total < 20 ? (
+          <>
+            <Typography>
+              Percentage:{" "}
+              <span style={{ color: "#f48c06" }}>
+                {((missing * 100) / total).toFixed(2)}%
+              </span>
+            </Typography>
+            <Typography sx={{ color: "warning.main", marginTop: 2 }}>
+              Consider Imputing Missing Values with Mode or a new 'Missing'
+              value
+            </Typography>
+          </>
+        ) : (
+          <>
+            <Typography>
+              Percentage:{" "}
+              <span style={{ color: "#e5383b" }}>
+                {((missing * 100) / total).toFixed(2)}%
+              </span>
+            </Typography>
+            <Typography sx={{ color: "error.main", marginTop: 2 }}>
+              Consider Dropping the column due to excessive missing values
+            </Typography>
+          </>
+        )}
         <Divider
           variant="middle"
           sx={{ my: 5, bgcolor: "text.primary" }}

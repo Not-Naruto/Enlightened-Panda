@@ -1,7 +1,13 @@
 import {
+  Avatar,
   Box,
   Divider,
   Grid,
+  Link,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   MenuItem,
   Select,
   Typography,
@@ -14,6 +20,7 @@ import PieChartCode from "./ColumnCode/PieChartCode";
 import FrequencyTableCode from "./ColumnCode/FrequencyTableCode";
 import { DataGrid } from "@mui/x-data-grid";
 import MissingColumnCode from "./MissingCode/MissingColumnCode";
+import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 
 interface Props {
   fileName: string;
@@ -99,6 +106,13 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
 
   const rows = generateRows(x_values, y_values);
 
+  const models = [
+    "Logistic Regression (Binary Classification)",
+    "SVM-Support Vector Machine",
+    "Naive Bayes",
+    "K-Nearest Neighbors",
+    "...etc",
+  ];
   return (
     <>
       <Box sx={{ margin: 5 }}>
@@ -302,6 +316,37 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
             </Typography>
           </>
         )}
+        <Divider
+          variant="middle"
+          sx={{ my: 5, bgcolor: "text.primary" }}
+        ></Divider>
+        <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
+          Recommended Machine Learning models
+        </Typography>
+        <List sx={{ marginTop: 3 }}>
+          {models.map((item) => {
+            return (
+              <ListItem key={item[0]}>
+                <ListItemAvatar>
+                  <Avatar sx={{ bgcolor: "primary.dark" }}>
+                    <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={<Typography>{item}</Typography>} />
+              </ListItem>
+            );
+          })}
+        </List>
+        <Typography sx={{ marginTop: 3 }}>
+          For more models and details:{" "}
+          <Link
+            href="https://scikit-learn.org/stable/supervised_learning.html"
+            target="_blank"
+            sx={{ color: "#2F91F5" }}
+          >
+            Supervised Learning - SciKit-Learn
+          </Link>
+        </Typography>
         <Divider
           variant="middle"
           sx={{ my: 5, bgcolor: "text.primary" }}

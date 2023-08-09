@@ -2,6 +2,7 @@ import { MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import Overview from "./Overview";
 import CategoricalColumn from "./CategoricalColumn";
+import NumericColumn from "./NumericColumn";
 
 interface Props {
   data: any[];
@@ -48,7 +49,7 @@ const Details = ({ data, file }: Props) => {
       {selected === "Overview" ? (
         <Overview data={data} file={file} />
       ) : getDataType(data[0][selected]) === "number" ? (
-        <div>Numeric</div>
+        <NumericColumn data={data} column={selected} fileName={file.name} />
       ) : (
         <CategoricalColumn data={data} column={selected} fileName={file.name} />
       )}

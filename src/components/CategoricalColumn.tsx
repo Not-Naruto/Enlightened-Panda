@@ -60,7 +60,7 @@ const generate_XY = (data: { [key: string]: any }[], column: string) => {
     missing[1] = missing[1] + 1;
   }
   delete info[""];
-  console.log(info);
+
   let x: String[] = [];
   let y: Number[] = [];
 

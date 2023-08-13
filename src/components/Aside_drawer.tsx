@@ -4,16 +4,23 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Toolbar,
 } from "@mui/material";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import LayersIcon from "@mui/icons-material/Layers";
 
 interface Props {
   menuOpen: boolean;
   setMenuOpen: () => void;
+  file: File | undefined;
+  setScreen: (scr: string) => void;
 }
 
-const Aside_drawer = ({ menuOpen, setMenuOpen }: Props) => {
+const Aside_drawer = ({ menuOpen, setMenuOpen, file, setScreen }: Props) => {
   const drawerWidth = "300px";
 
   const drawer = (
@@ -36,10 +43,34 @@ const Aside_drawer = ({ menuOpen, setMenuOpen }: Props) => {
       </Toolbar>
       <Divider />
       <List>
-        <ListItem>Test</ListItem>
-        <ListItem>Test</ListItem>
-        <ListItem>Test</ListItem>
-        <ListItem>Test</ListItem>
+        <ListItem key="details" disablePadding>
+          <ListItemButton
+            disabled={file ? false : true}
+            onClick={() => {
+              setScreen("Details");
+              setMenuOpen();
+            }}
+          >
+            <ListItemIcon>
+              <LayersIcon sx={{ color: "text.primary" }} />
+            </ListItemIcon>
+            <ListItemText primary={"Details"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="comparison" disablePadding>
+          <ListItemButton
+            disabled={file ? false : true}
+            onClick={() => {
+              setScreen("comparison");
+              setMenuOpen();
+            }}
+          >
+            <ListItemIcon>
+              <BarChartIcon sx={{ color: "text.primary" }} />
+            </ListItemIcon>
+            <ListItemText primary={"Compare Columns"} />
+          </ListItemButton>
+        </ListItem>
       </List>
     </div>
   );

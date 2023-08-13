@@ -8,10 +8,17 @@ import {
   CircularProgress,
   CssBaseline,
   Grid,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import Aside_drawer from "./components/Aside_drawer";
 import FileInput from "./components/FileInput";
 import Details from "./components/Details";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import LayersIcon from "@mui/icons-material/Layers";
 
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
@@ -19,6 +26,7 @@ function App() {
   const [file, setFile] = useState<File>();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [screen, setScreen] = useState("fileInput");
 
   const themeLight = createTheme({
     typography: {
@@ -93,8 +101,10 @@ function App() {
         toggleMenu={() => setMenuOpen(!menuOpen)}
       />
       <Aside_drawer
+        file={file}
         menuOpen={menuOpen}
         setMenuOpen={() => setMenuOpen(!menuOpen)}
+        setScreen={(scr: string) => setScreen(scr)}
       />
       <Grid container>
         <Grid item id="aside" xs={0} sm={3.5} lg={2} xl={1.5}>
@@ -103,17 +113,45 @@ function App() {
             width={"100%"}
             minHeight={"100vh"}
             height={"100%"}
-          ></Box>
+          >
+            <List sx={{ display: { xs: "none", sm: "block" } }}>
+              <ListItem key="details" disablePadding>
+                <ListItemButton
+                  disabled={file ? false : true}
+                  onClick={() => setScreen("Details")}
+                >
+                  <ListItemIcon>
+                    <LayersIcon sx={{ color: "text.primary" }} />
+                  </ListItemIcon>
+                  <ListItemText primary={"Details"} />
+                </ListItemButton>
+              </ListItem>
+              <ListItem key="comparison" disablePadding>
+                <ListItemButton
+                  disabled={file ? false : true}
+                  onClick={() => setScreen("comparison")}
+                >
+                  <ListItemIcon>
+                    <BarChartIcon sx={{ color: "text.primary" }} />
+                  </ListItemIcon>
+                  <ListItemText primary={"Compare Columns"} />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Box>
         </Grid>
         <Grid item id="main" xs={12} sm={8.5} lg={8} xl={9}>
-          {file ? (
-            <Details data={data} file={file} />
-          ) : (
+          {screen === "fileInput" ? (
             <FileInput
               setData={(res) => setData(res)}
               setLoading={(res: boolean) => setLoading(res)}
               setFile={(res: any) => setFile(res)}
+              setScreen={() => setScreen("Details")}
             />
+          ) : screen === "Details" ? (
+            <Details data={data} file={file} />
+          ) : (
+            <div>comparison</div>
           )}
         </Grid>
         <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>

@@ -6,7 +6,7 @@ import NumericColumn from "./NumericColumn";
 
 interface Props {
   data: any[];
-  file: File;
+  file: any;
 }
 
 function getDataType(variable: string) {

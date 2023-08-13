@@ -15,9 +15,10 @@ interface Props {
   setData: (data: any[]) => void;
   setLoading: (l: boolean) => void;
   setFile: (res: File) => void;
+  setScreen: () => void;
 }
 
-const FileInput = ({ setData, setLoading, setFile }: Props) => {
+const FileInput = ({ setData, setLoading, setFile, setScreen }: Props) => {
   const FileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -48,6 +49,7 @@ const FileInput = ({ setData, setLoading, setFile }: Props) => {
       complete: (results) => {
         setFile(file);
         setData(results.data);
+        setScreen();
       },
     });
   };
@@ -88,9 +90,7 @@ const FileInput = ({ setData, setLoading, setFile }: Props) => {
         sx={{
           backgroundColor: "background.paper",
           margin: "0 auto",
-          // height: "50%",
-          // maxHeight: "580px",
-          // minHeight: "380px",
+          minHeight: "380px",
           aspectRatio: "5/4",
           width: { xs: "80%", md: "60%", lg: "40%" },
           borderRadius: 10,
@@ -104,6 +104,7 @@ const FileInput = ({ setData, setLoading, setFile }: Props) => {
             width: "90%",
             margin: "auto",
             border: `dashed`,
+            borderColor: "text.primary",
             borderRadius: 10,
             display: "flex",
             justifyContent: "center",

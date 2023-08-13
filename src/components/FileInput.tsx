@@ -10,6 +10,7 @@ import {
 import csvIcon from "../assets/csv.png";
 import { useRef, useState } from "react";
 import Papa from "papaparse";
+import AspectRatio from "@mui/joy/AspectRatio";
 
 interface Props {
   setData: (data: any[]) => void;
@@ -88,9 +89,10 @@ const FileInput = ({ setData, setLoading, setFile }: Props) => {
         sx={{
           backgroundColor: "background.paper",
           margin: "0 auto",
-          height: "50%",
-          maxHeight: "580px",
-          minHeight: "380px",
+          // height: "50%",
+          // maxHeight: "580px",
+          // minHeight: "380px",
+          aspectRatio: "5/4",
           width: { xs: "80%", md: "60%", lg: "40%" },
           borderRadius: 10,
           display: "flex",
@@ -114,7 +116,7 @@ const FileInput = ({ setData, setLoading, setFile }: Props) => {
             <Typography>Drop Files Here</Typography>
           ) : (
             <Stack sx={{ justifyItems: "center" }} spacing={2}>
-              <img src={csvIcon} width={"100px"} style={{ margin: "0 auto" }} />
+              <img src={csvIcon} width={"70px"} style={{ margin: "0 auto" }} />
               <Typography variant="h5" textAlign={"center"}>
                 Drag csv file here to upload
               </Typography>

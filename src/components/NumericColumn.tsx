@@ -3,6 +3,7 @@ import {
   Box,
   Divider,
   Grid,
+  Link,
   List,
   ListItem,
   ListItemAvatar,
@@ -107,6 +108,14 @@ const NumericColumn = ({ fileName, data, column }: Props) => {
   );
 
   const { missing, total } = generateMissing(data, column);
+
+  const models = [
+    "Linear Regression",
+    "Polynomial Regression",
+    "Random Forest",
+    "Decision Tree",
+    "...etc",
+  ];
 
   return (
     <Box sx={{ margin: 5 }}>
@@ -357,6 +366,37 @@ const NumericColumn = ({ fileName, data, column }: Props) => {
           </Typography>
         </>
       )}
+      <Divider
+        variant="middle"
+        sx={{ my: 5, bgcolor: "text.primary" }}
+      ></Divider>
+      <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
+        Recommended Machine Learning models
+      </Typography>
+      <List sx={{ marginTop: 3 }}>
+        {models.map((item) => {
+          return (
+            <ListItem key={item[0]}>
+              <ListItemAvatar>
+                <Avatar sx={{ bgcolor: "primary.dark" }}>
+                  <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={<Typography>{item}</Typography>} />
+            </ListItem>
+          );
+        })}
+      </List>
+      <Typography sx={{ marginTop: 3 }}>
+        For more models and details:{" "}
+        <Link
+          href="https://scikit-learn.org/stable/supervised_learning.html"
+          target="_blank"
+          sx={{ color: "#2F91F5" }}
+        >
+          Supervised Learning - SciKit-Learn
+        </Link>
+      </Typography>
       <Divider
         variant="middle"
         sx={{ my: 5, bgcolor: "text.primary" }}

@@ -10,7 +10,6 @@ import {
 import csvIcon from "../assets/csv.png";
 import { useRef, useState } from "react";
 import Papa from "papaparse";
-import AspectRatio from "@mui/joy/AspectRatio";
 
 interface Props {
   setData: (data: any[]) => void;

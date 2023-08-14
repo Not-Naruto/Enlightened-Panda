@@ -19,6 +19,7 @@ import BoxPlotCode from "./ColumnCode/BoxPlotCode";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import MissingColumnCode from "./MissingCode/MissingColumnCode";
 import StatisticCode from "./ColumnCode/StatisticCode";
+import OutlierCode from "./ColumnCode/OutlierCode";
 
 interface Props {
   fileName: string;
@@ -96,11 +97,45 @@ function calculateStatistics(numbers: number[]): {
   return { mean, median, mode, stdDeviation, variance };
 }
 
+const calculateOutliers = (numbers: number[]) => {
+  const sortedNumbers = numbers.slice().sort((a, b) => a - b);
+
+  const middle = Math.floor(sortedNumbers.length / 2);
+
+  const lowerHalf = sortedNumbers.slice(0, middle);
+  const upperHalf = sortedNumbers.slice(
+    middle + (sortedNumbers.length % 2 === 0 ? 0 : 1)
+  );
+
+  const lmiddle = Math.floor(lowerHalf.length / 2);
+  const q1 =
+    lowerHalf.length % 2 === 0
+      ? (lowerHalf[lmiddle - 1] + lowerHalf[lmiddle]) / 2
+      : lowerHalf[lmiddle];
+
+  const umiddle = Math.floor(upperHalf.length / 2);
+  const q3 =
+    upperHalf.length % 2 === 0
+      ? (upperHalf[umiddle - 1] + upperHalf[umiddle]) / 2
+      : upperHalf[umiddle];
+
+  const iqr = q3 - q1;
+  const outlierThreshold = 1.5 * iqr;
+
+  const outliers = sortedNumbers.filter(
+    (number) => number < q1 - outlierThreshold || number > q3 + outlierThreshold
+  );
+
+  return outliers;
+};
+
 const NumericColumn = ({ fileName, data, column }: Props) => {
   const [graphType, setGraphType] = useState("Histogram");
   const x_values = generateX(data, column);
   const { mean, median, mode, stdDeviation, variance } =
     calculateStatistics(x_values);
+  const outliers = calculateOutliers(x_values);
+  console.log(outliers);
 
   const numberOfBins = Math.round(
     (Math.max(...x_values) - Math.min(...x_values)) *
@@ -366,6 +401,28 @@ const NumericColumn = ({ fileName, data, column }: Props) => {
           </Typography>
         </>
       )}
+      <Divider
+        variant="middle"
+        sx={{ my: 5, bgcolor: "text.primary" }}
+      ></Divider>
+      <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
+        Outliers
+      </Typography>
+      <OutlierCode fileName={fileName} column={column} />
+      <Typography sx={{ marginTop: 3 }}>
+        Outliers in {column}: {outliers.length}
+      </Typography>
+      {(outliers.length * 100) / x_values.length > 1 ? (
+        <Typography sx={{ color: "warning.main", marginTop: 2 }}>
+          Consider Imputing Outliers with 95th/5th percentile values to prevent
+          skewing of data
+        </Typography>
+      ) : (
+        <Typography sx={{ color: "#3f834a", marginTop: 2 }}>
+          No changes necessary
+        </Typography>
+      )}
+
       <Divider
         variant="middle"
         sx={{ my: 5, bgcolor: "text.primary" }}

@@ -325,6 +325,9 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
         <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
           Recommended Machine Learning models
         </Typography>
+        <Typography sx={{ marginTop: 3, marginLeft: 2 }}>
+          Consider normalizing numeric data to increase stability of model
+        </Typography>
         <List sx={{ marginTop: 3 }}>
           {models.map((item) => {
             return (

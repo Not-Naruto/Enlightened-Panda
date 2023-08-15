@@ -20,6 +20,7 @@ import Details from "./components/Details";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import { themeDark, themeLight } from "./theme";
+import ComparisonComponent from "./components/ComparisonComponent";
 
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
@@ -99,7 +100,7 @@ function App() {
           ) : screen === "Details" ? (
             <Details data={data} file={file} />
           ) : (
-            <div>comparison</div>
+            <ComparisonComponent data={data} file={file} />
           )}
         </Grid>
         <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>

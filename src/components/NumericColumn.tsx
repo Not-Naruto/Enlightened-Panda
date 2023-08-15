@@ -252,6 +252,7 @@ const NumericColumn = ({ fileName, data, column }: Props) => {
                     type: "box",
                     marker: { color: "  #2a5a33" },
                     name: column,
+                    jitter: 0.1,
                   },
                 ]}
                 layout={{

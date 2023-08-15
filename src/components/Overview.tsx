@@ -31,6 +31,7 @@ function generateColumns(data: any[]): GridColDef[] {
       headerName: columnName,
       headerClassName: "TableHead",
       flex: 1,
+      minWidth: 100,
     };
   });
 }
@@ -123,12 +124,16 @@ const Overview = ({ data, file }: Props) => {
         </Typography>
         <DataGrid
           sx={{
-            height: "635px",
             bgcolor: "primary.light",
           }}
           rows={rows}
           columns={columns}
-          autoPageSize={true}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          pageSizeOptions={[10]}
           disableRowSelectionOnClick
         />
         <Divider

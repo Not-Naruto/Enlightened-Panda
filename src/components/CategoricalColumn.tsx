@@ -18,7 +18,7 @@ import BarGraphCode from "./ColumnCode/BarGraphCode";
 import { useState } from "react";
 import PieChartCode from "./ColumnCode/PieChartCode";
 import FrequencyTableCode from "./ColumnCode/FrequencyTableCode";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import MissingColumnCode from "./MissingCode/MissingColumnCode";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 
@@ -89,17 +89,19 @@ const CategoricalColumn = ({ data, column, fileName }: Props) => {
   const missing: number = info[2][0] as number;
   const total: number = info[2][1] as number;
 
-  const columns = [
+  const columns: GridColDef[] = [
     {
       field: "Value",
       headerName: "Value",
       headerClassName: "TableHead",
+      minWidth: 100,
       flex: 1,
     },
     {
       field: "Frequency",
       headerName: "Frequency",
       headerClassName: "TableHead",
+      minWidth: 100,
       flex: 1,
     },
   ];

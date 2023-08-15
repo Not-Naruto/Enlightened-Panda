@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import {
   Backdrop,
   Box,
@@ -19,6 +19,7 @@ import FileInput from "./components/FileInput";
 import Details from "./components/Details";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
+import { themeDark, themeLight } from "./theme";
 
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
@@ -27,59 +28,6 @@ function App() {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [screen, setScreen] = useState("fileInput");
-
-  const themeLight = createTheme({
-    typography: {
-      fontFamily: ["REM", "sans-serif"].join(","),
-    },
-    palette: {
-      background: {
-        default: "#FAF9F6",
-        paper: "#f5eadf",
-      },
-      primary: {
-        main: "#3f834a",
-      },
-      secondary: {
-        main: "#ffffff",
-      },
-      error: {
-        main: "#e5383b",
-        dark: "#331A1A",
-      },
-      warning: {
-        main: "#f48c06",
-      },
-    },
-  });
-
-  const themeDark = createTheme({
-    typography: {
-      fontFamily: ["REM", "sans-serif"].join(","),
-    },
-    palette: {
-      background: {
-        default: "#1c1c1c",
-        paper: "#333333",
-      },
-      text: {
-        primary: "#fff",
-      },
-      primary: {
-        main: "#2a5a33",
-      },
-      secondary: {
-        main: "#ffffff",
-      },
-      error: {
-        main: "#e5383b",
-        dark: "#331A1A",
-      },
-      warning: {
-        main: "#f48c06",
-      },
-    },
-  });
 
   return (
     <ThemeProvider theme={colorMode === "light" ? themeLight : themeDark}>

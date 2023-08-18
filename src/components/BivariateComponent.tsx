@@ -8,6 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import Cat_Cat from "./BivariateGraphs/Cat_Cat";
+import Cat_Num from "./BivariateGraphs/Cat_Num";
+import Num_Num from "./BivariateGraphs/Num_Num";
 
 interface Props {
   data: any[];
@@ -15,26 +18,49 @@ interface Props {
 }
 
 const orderColumns = (col1: string, col2: string, data: any[]) => {
+  if (col1 === "" || col2 === "") {
+    return {
+      column1: "",
+      column2: "",
+      dt1: "",
+      dt2: "",
+    };
+  }
+
   try {
     var val1 = eval(data[0][col1]);
   } catch {
     var val1 = data[0][col1];
   }
+  try {
+    var val2 = eval(data[0][col2]);
+  } catch {
+    var val2 = data[0][col2];
+  }
+
+  const t = typeof val2;
+  if (t === "string") {
+    var t2 = "cat";
+  } else {
+    var t2 = "num";
+  }
 
   if (typeof val1 === "string") {
-    return { column1: col1, column2: col2 };
+    return { column1: col1, column2: col2, dt1: "cat", dt2: t2 };
   } else {
-    return { column1: col2, column2: col1 };
+    return { column1: col2, column2: col1, dt1: t2, dt2: "num" };
   }
 };
 
-const ComparisonComponent = ({ data, file }: Props) => {
+const BivariateComponent = ({ data, file }: Props) => {
   const [col1, setCol1] = useState<string>("");
   const [col2, setCol2] = useState<string>("");
 
   const [selectedColumns, setSelectedColumns] = useState({
     column1: "",
     column2: "",
+    dt1: "",
+    dt2: "",
   });
 
   const columns = Object.keys(data[0]);
@@ -45,7 +71,7 @@ const ComparisonComponent = ({ data, file }: Props) => {
         sx={{ my: 5, fontWeight: "bold", color: "primary.main" }}
         variant="h2"
       >
-        Comparison
+        Bivariate Graphs
       </Typography>
       <Divider
         variant="middle"
@@ -134,8 +160,21 @@ const ComparisonComponent = ({ data, file }: Props) => {
           </Button>
         </Grid>
       </Grid>
+      <Divider
+        variant="middle"
+        sx={{ my: 5, bgcolor: "text.primary" }}
+      ></Divider>
+      {!selectedColumns.dt1 && !selectedColumns.dt2 ? (
+        <></>
+      ) : selectedColumns.dt1 === "cat" && selectedColumns.dt2 === "cat" ? (
+        <Cat_Cat />
+      ) : selectedColumns.dt1 === "cat" && selectedColumns.dt2 === "num" ? (
+        <Cat_Num />
+      ) : (
+        <Num_Num />
+      )}
     </Box>
   );
 };
 
-export default ComparisonComponent;
+export default BivariateComponent;

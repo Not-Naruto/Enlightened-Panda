@@ -61,14 +61,14 @@ const Aside_drawer = ({ menuOpen, setMenuOpen, file, setScreen }: Props) => {
           <ListItemButton
             disabled={file ? false : true}
             onClick={() => {
-              setScreen("comparison");
+              setScreen("bivariate");
               setMenuOpen();
             }}
           >
             <ListItemIcon>
               <BarChartIcon sx={{ color: "text.primary" }} />
             </ListItemIcon>
-            <ListItemText primary={"Compare Columns"} />
+            <ListItemText primary={"Bivariate Graphs"} />
           </ListItemButton>
         </ListItem>
       </List>

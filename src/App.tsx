@@ -20,7 +20,7 @@ import Details from "./components/Details";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import { themeDark, themeLight } from "./theme";
-import ComparisonComponent from "./components/ComparisonComponent";
+import BivariateComponent from "./components/BivariateComponent";
 
 function App() {
   const [colorMode, setColorMode] = useState<"light" | "dark">("dark");
@@ -78,12 +78,12 @@ function App() {
               <ListItem key="comparison" disablePadding>
                 <ListItemButton
                   disabled={file ? false : true}
-                  onClick={() => setScreen("comparison")}
+                  onClick={() => setScreen("bivariate")}
                 >
                   <ListItemIcon>
                     <BarChartIcon sx={{ color: "text.primary" }} />
                   </ListItemIcon>
-                  <ListItemText primary={"Compare Columns"} />
+                  <ListItemText primary={"Bivariate Graphs"} />
                 </ListItemButton>
               </ListItem>
             </List>
@@ -100,7 +100,7 @@ function App() {
           ) : screen === "Details" ? (
             <Details data={data} file={file} />
           ) : (
-            <ComparisonComponent data={data} file={file} />
+            <BivariateComponent data={data} file={file} />
           )}
         </Grid>
         <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>

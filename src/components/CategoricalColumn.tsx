@@ -50,11 +50,10 @@ const generate_XY = (data: { [key: string]: any }[], column: string) => {
   let missing: number[] = [0, 0];
   for (let i = 0; i < data.length; i++) {
     let row = data[i];
-    if (row[column].toLowerCase().trim() in info) {
-      info[row[column].toLowerCase().trim()] =
-        info[row[column].toLowerCase().trim()] + 1;
-    } else if (row[column].toLowerCase().trim()) {
-      info[row[column].toLowerCase().trim()] = 1;
+    if (row[column].trim() in info) {
+      info[row[column].trim()] = info[row[column].trim()] + 1;
+    } else if (row[column].trim()) {
+      info[row[column].trim()] = 1;
     } else {
       missing[0] = missing[0] + 1;
     }

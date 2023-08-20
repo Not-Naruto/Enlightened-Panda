@@ -21,7 +21,14 @@ const CodeComponent = ({ codeString }: Props) => {
   };
 
   return (
-    <div style={{ borderRadius: "10px", overflow: "hidden", height: "99%" }}>
+    <div
+      style={{
+        borderRadius: "10px",
+        overflow: "hidden",
+        height: "99%",
+        maxHeight: "1000px",
+      }}
+    >
       <div
         style={{
           display: "flex",

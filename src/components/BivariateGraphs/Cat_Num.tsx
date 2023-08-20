@@ -7,9 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import HistogramCode from "../ColumnCode/HistogramCode";
-import BoxPlotCode from "../ColumnCode/BoxPlotCode";
 import Plot from "react-plotly.js";
+import BivariateHistogram from "./BivariateCode/BivariateHistogram";
+import BivariateBoxPlot from "./BivariateCode/BivariateBoxPlot";
 
 interface Props {
   fileName: string;
@@ -23,10 +23,10 @@ const generateX = (data: any[], col1: string, col2: string) => {
 
   for (let i = 0; i < data.length; i++) {
     const row = data[i];
-    if (row[col1].toLowerCase().trim() in output) {
-      output[row[col1].toLowerCase().trim()].push(row[col2]);
+    if (row[col1].trim() in output) {
+      output[row[col1].trim()].push(row[col2]);
     } else {
-      output[row[col1].toLowerCase().trim()] = [row[col2]];
+      output[row[col1].trim()] = [row[col2]];
     }
   }
 
@@ -121,7 +121,12 @@ const Cat_Num = ({ fileName, col1, col2, data }: Props) => {
             </Box>
           </Grid>
           <Grid item xs={12} md={5} xl={6}>
-            <HistogramCode fileName={fileName} column={"column"} />
+            <BivariateHistogram
+              fileName={fileName}
+              col1={col1}
+              col2={col2}
+              values={Object.keys(x_values)}
+            />
           </Grid>
         </Grid>
       ) : (
@@ -141,6 +146,12 @@ const Cat_Num = ({ fileName, col1, col2, data }: Props) => {
                 data={generateDataBox(x_values)}
                 layout={{
                   title: "<b>Box-plot<b>",
+                  xaxis: {
+                    title: `<b>${col1}</b>`,
+                  },
+                  yaxis: {
+                    title: `<b>${col2}</b>`,
+                  },
                 }}
                 config={{ responsive: true }}
                 useResizeHandler={true}
@@ -149,7 +160,7 @@ const Cat_Num = ({ fileName, col1, col2, data }: Props) => {
             </Box>
           </Grid>
           <Grid item xs={12} md={5} xl={6}>
-            <BoxPlotCode fileName={fileName} column={"column"} />
+            <BivariateBoxPlot fileName={fileName} col1={col1} col2={col2} />
           </Grid>
         </Grid>
       )}

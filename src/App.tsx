@@ -70,20 +70,23 @@ function App() {
                   onClick={() => setScreen("Details")}
                 >
                   <ListItemIcon>
-                    <LayersIcon sx={{ color: "text.primary" }} />
+                    <LayersIcon sx={{ color: "white" }} />
                   </ListItemIcon>
-                  <ListItemText primary={"Details"} />
+                  <ListItemText sx={{ color: "white" }} primary={"Details"} />
                 </ListItemButton>
               </ListItem>
-              <ListItem key="comparison" disablePadding>
+              <ListItem key="bivariate" disablePadding>
                 <ListItemButton
                   disabled={file ? false : true}
                   onClick={() => setScreen("bivariate")}
                 >
                   <ListItemIcon>
-                    <BarChartIcon sx={{ color: "text.primary" }} />
+                    <BarChartIcon sx={{ color: "white" }} />
                   </ListItemIcon>
-                  <ListItemText primary={"Bivariate Graphs"} />
+                  <ListItemText
+                    sx={{ color: "white" }}
+                    primary={"Bivariate Graphs"}
+                  />
                 </ListItemButton>
               </ListItem>
             </List>

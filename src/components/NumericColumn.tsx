@@ -135,7 +135,6 @@ const NumericColumn = ({ fileName, data, column }: Props) => {
   const { mean, median, mode, stdDeviation, variance } =
     calculateStatistics(x_values);
   const outliers = calculateOutliers(x_values);
-  console.log(outliers);
 
   const numberOfBins = Math.round(
     (Math.max(...x_values) - Math.min(...x_values)) *

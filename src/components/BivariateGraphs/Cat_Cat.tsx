@@ -1,5 +1,4 @@
-import { Box, Divider, Grid, Select, Typography } from "@mui/material";
-import BivariateHistogram from "./BivariateCode/BivariateHistogram";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import Plot from "react-plotly.js";
 import BivariateBar from "./BivariateCode/BivariateBar";
 

@@ -6,14 +6,16 @@ interface Props {
   col2: string;
 }
 const BivariateBar = ({ fileName, col1, col2 }: Props) => {
-  var code = `CHANGE DIS SHIT
+  var code = `import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
     
-    df = pd.read_csv("${fileName}")
-    sns.boxplot(data=df, x="${col1}", y="${col2}", hue="${col1}")
-    
-    plt.legend(loc='upper right')
-    plt.title('Box-plot')
-    plt.show()`;
+df = pd.read_csv("${fileName}")
+
+sns.countplot(data=df, x="${col1}", hue="${col2}")
+plt.title('Count Plot')
+plt.legend(loc='upper right')
+plt.show()`;
 
   return <CodeComponent codeString={code} />;
 };

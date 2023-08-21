@@ -72,7 +72,7 @@ const Cat_Cat = ({ fileName, col1, col2, data }: Props) => {
                   title: { text: "<b>Frequency<b>", standoff: 50 },
                 },
                 xaxis: { title: { text: `<b>${col1}<b>`, standoff: 50 } },
-                title: "<b>Bar Chart<b>",
+                title: "<b>Count Plot<b>",
               }}
               config={{ responsive: true }}
               useResizeHandler={true}

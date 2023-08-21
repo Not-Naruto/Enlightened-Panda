@@ -167,7 +167,12 @@ const BivariateComponent = ({ data, file }: Props) => {
       {!selectedColumns.dt1 && !selectedColumns.dt2 ? (
         <></>
       ) : selectedColumns.dt1 === "cat" && selectedColumns.dt2 === "cat" ? (
-        <Cat_Cat />
+        <Cat_Cat
+          fileName={file.name}
+          col1={selectedColumns.column1}
+          col2={selectedColumns.column2}
+          data={data}
+        />
       ) : selectedColumns.dt1 === "cat" && selectedColumns.dt2 === "num" ? (
         <Cat_Num
           fileName={file.name}

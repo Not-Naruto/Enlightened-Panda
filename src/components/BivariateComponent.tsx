@@ -181,7 +181,12 @@ const BivariateComponent = ({ data, file }: Props) => {
           data={data}
         />
       ) : (
-        <Num_Num />
+        <Num_Num
+          fileName={file.name}
+          col1={selectedColumns.column1}
+          col2={selectedColumns.column2}
+          data={data}
+        />
       )}
     </Box>
   );

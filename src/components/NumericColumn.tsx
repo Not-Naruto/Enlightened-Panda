@@ -60,7 +60,7 @@ function generateMissing(
   return { missing, total };
 }
 
-function calculateStatistics(numbers: number[]): {
+export function calculateStatistics(numbers: number[]): {
   mean: number;
   median: number;
   mode: number;

@@ -1,7 +1,12 @@
 import {
+  Avatar,
   Box,
   Divider,
   Grid,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   MenuItem,
   Select,
   Typography,
@@ -10,6 +15,8 @@ import { useState } from "react";
 import Plot from "react-plotly.js";
 import BivariateHistogram from "./BivariateCode/BivariateHistogram";
 import BivariateBoxPlot from "./BivariateCode/BivariateBoxPlot";
+import LabelImportantIcon from "@mui/icons-material/LabelImportant";
+import { calculateStatistics } from "../NumericColumn";
 
 interface Props {
   fileName: string;
@@ -23,10 +30,11 @@ const generateX = (data: any[], col1: string, col2: string) => {
 
   for (let i = 0; i < data.length; i++) {
     const row = data[i];
-    if (row[col1].trim() in output) {
-      output[row[col1].trim()].push(row[col2]);
+    if (!Boolean(row[col2])) {
+    } else if (row[col1].trim() in output) {
+      output[row[col1].trim()].push(Number(row[col2]));
     } else {
-      output[row[col1].trim()] = [row[col2]];
+      output[row[col1].trim()] = [Number(row[col2])];
     }
   }
 
@@ -67,7 +75,7 @@ const Cat_Num = ({ fileName, col1, col2, data }: Props) => {
   const [graphType, setGraphType] = useState("Histogram");
 
   const x_values = generateX(data, col1, col2);
-
+  var i = 0;
   return (
     <>
       <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
@@ -164,6 +172,108 @@ const Cat_Num = ({ fileName, col1, col2, data }: Props) => {
           </Grid>
         </Grid>
       )}
+      <Divider
+        variant="middle"
+        sx={{ my: 5, bgcolor: "text.primary" }}
+      ></Divider>
+      <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
+        Grouped Statistical Values
+      </Typography>
+      <Grid container spacing={2}>
+        {Object.keys(x_values).map((item) => {
+          const { mean, median, mode, stdDeviation, variance } =
+            calculateStatistics(x_values[item]);
+          i += 5;
+          return (
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={4}
+              xl={3}
+              sx={{ marginBottom: 3 }}
+              key={item}
+            >
+              <Typography variant="h5">
+                {col1}-{item}
+              </Typography>
+              <List>
+                <ListItem key={`mean-${item}`}>
+                  <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: "primary.dark" }}>
+                      <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <Typography>
+                        <strong>Mean:</strong> {mean.toFixed(2)}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem key={`median-${item}`}>
+                  <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: "primary.dark" }}>
+                      <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <Typography>
+                        <strong>Median:</strong> {median.toFixed(2)}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem key={`mode-${item}`}>
+                  <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: "primary.dark" }}>
+                      <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <Typography>
+                        <strong>Mode:</strong> {mode.toFixed(2)}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem key={`stdDeviation-${item}`}>
+                  <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: "primary.dark" }}>
+                      <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <Typography>
+                        <strong>Standard Deviation:</strong>{" "}
+                        {stdDeviation.toFixed(2)}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem key={`variance-${item}`}>
+                  <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: "primary.dark" }}>
+                      <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <Typography>
+                        <strong>Variance:</strong> {variance.toFixed(2)}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              </List>
+            </Grid>
+          );
+        })}
+      </Grid>
       <Divider
         variant="middle"
         sx={{ my: 5, bgcolor: "text.primary" }}

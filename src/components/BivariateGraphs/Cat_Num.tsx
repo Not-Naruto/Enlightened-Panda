@@ -17,6 +17,7 @@ import BivariateHistogram from "./BivariateCode/BivariateHistogram";
 import BivariateBoxPlot from "./BivariateCode/BivariateBoxPlot";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import { calculateStatistics } from "../NumericColumn";
+import GroupedStatistics from "./BivariateCode/GroupedStatistics";
 
 interface Props {
   fileName: string;
@@ -179,6 +180,9 @@ const Cat_Num = ({ fileName, col1, col2, data }: Props) => {
       <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
         Grouped Statistical Values
       </Typography>
+
+      <GroupedStatistics fileName={fileName} col1={col1} col2={col2} />
+
       <Grid container spacing={2}>
         {Object.keys(x_values).map((item) => {
           const { mean, median, mode, stdDeviation, variance } =
@@ -191,7 +195,7 @@ const Cat_Num = ({ fileName, col1, col2, data }: Props) => {
               md={6}
               lg={4}
               xl={3}
-              sx={{ marginBottom: 3 }}
+              sx={{ marginTop: 3 }}
               key={item}
             >
               <Typography variant="h5">

@@ -107,7 +107,7 @@ function App() {
           )}
         </Grid>
         <Grid item id="right" xs={12} sm={12} lg={2} xl={1.5}>
-          <Box width={"100%"} minHeight={"100vh"} height={"100%"}></Box>
+          <Box width={"100%"} height={"100%"}></Box>
         </Grid>
       </Grid>
     </ThemeProvider>

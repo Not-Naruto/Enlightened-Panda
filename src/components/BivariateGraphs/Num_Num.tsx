@@ -1,16 +1,24 @@
 import {
+  Avatar,
   Box,
   Divider,
   Grid,
+  List,
+  ListItemAvatar,
   MenuItem,
   Select,
   Typography,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import { useState } from "react";
 import Plot from "react-plotly.js";
 import BivariateScatterPlot from "./BivariateCode/BivariateScatterPlot";
 import BivariateLinePlot from "./BivariateCode/BivariateLinePlot";
 import BivariateOutliers from "./BivariateCode/BivariateOutliers";
+
+import LabelImportantIcon from "@mui/icons-material/LabelImportant";
+import RelationshipCode from "./BivariateCode/RelationshipCode";
 
 interface Props {
   fileName: string;
@@ -36,6 +44,39 @@ function generateData(
   }
 
   return { x, y };
+}
+
+function calculateCovarianceAndCorrelation(
+  x: number[],
+  y: number[]
+): { cov: number; cor: number } {
+  if (x.length !== y.length) {
+    throw new Error("Arrays x and y must have equal length");
+  }
+
+  const n = x.length;
+
+  const meanX = x.reduce((sum, val) => sum + val, 0) / n;
+  const meanY = y.reduce((sum, val) => sum + val, 0) / n;
+
+  let covariance = 0;
+  let xDeviationSquaredSum = 0;
+  let yDeviationSquaredSum = 0;
+
+  for (let i = 0; i < n; i++) {
+    const xDeviation = x[i] - meanX;
+    const yDeviation = y[i] - meanY;
+
+    covariance += xDeviation * yDeviation;
+    xDeviationSquaredSum += xDeviation ** 2;
+    yDeviationSquaredSum += yDeviation ** 2;
+  }
+
+  const cov = covariance / n;
+  const cor =
+    covariance / Math.sqrt(xDeviationSquaredSum * yDeviationSquaredSum);
+
+  return { cov, cor };
 }
 
 function calculateBivariateOutliers(x: number[], y: number[]): any[] {
@@ -70,6 +111,7 @@ function calculateBivariateOutliers(x: number[], y: number[]): any[] {
 const Num_Num = ({ fileName, col1, col2, data }: Props) => {
   const [graphType, setGraphType] = useState("Scatter plot");
   const { x, y } = generateData(data, col1, col2);
+  const { cov, cor } = calculateCovarianceAndCorrelation(x, y);
   const outliers = calculateBivariateOutliers(x, y);
 
   return (
@@ -179,6 +221,46 @@ const Num_Num = ({ fileName, col1, col2, data }: Props) => {
           </Grid>
         </Grid>
       )}
+
+      <Divider
+        variant="middle"
+        sx={{ my: 5, bgcolor: "text.primary" }}
+      ></Divider>
+      <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
+        Relationship
+      </Typography>
+      <RelationshipCode fileName={fileName} col1={col1} col2={col2} />
+
+      <List>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar sx={{ bgcolor: "primary.dark" }}>
+              <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={
+              <Typography>
+                <strong>Covariance:</strong> {cov.toFixed(4)}
+              </Typography>
+            }
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar sx={{ bgcolor: "primary.dark" }}>
+              <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={
+              <Typography>
+                <strong>Correlation:</strong> {cor.toFixed(4)}
+              </Typography>
+            }
+          />
+        </ListItem>
+      </List>
 
       <Divider
         variant="middle"

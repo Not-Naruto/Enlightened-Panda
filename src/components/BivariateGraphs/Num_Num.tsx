@@ -232,7 +232,7 @@ const Num_Num = ({ fileName, col1, col2, data }: Props) => {
       <RelationshipCode fileName={fileName} col1={col1} col2={col2} />
 
       <List>
-        <ListItem>
+        <ListItem key={"cov"}>
           <ListItemAvatar>
             <Avatar sx={{ bgcolor: "primary.dark" }}>
               <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
@@ -246,7 +246,7 @@ const Num_Num = ({ fileName, col1, col2, data }: Props) => {
             }
           />
         </ListItem>
-        <ListItem>
+        <ListItem key={"cor"}>
           <ListItemAvatar>
             <Avatar sx={{ bgcolor: "primary.dark" }}>
               <LabelImportantIcon sx={{ color: "#c1d4c6" }} />
@@ -261,6 +261,31 @@ const Num_Num = ({ fileName, col1, col2, data }: Props) => {
           />
         </ListItem>
       </List>
+      {cor < -0.85 ? (
+        <Typography sx={{ color: "#3f834a", marginX: 3 }}>
+          Strong Negative Relation
+        </Typography>
+      ) : cor < -0.5 ? (
+        <Typography sx={{ color: "#f48c06", marginX: 3 }}>
+          Moderate Negative Relation
+        </Typography>
+      ) : cor < 0 ? (
+        <Typography sx={{ color: "error.main", marginX: 3 }}>
+          Weak Negative Relation
+        </Typography>
+      ) : cor < 0.5 ? (
+        <Typography sx={{ color: "error.main", marginX: 3 }}>
+          Weak Positive Relation
+        </Typography>
+      ) : cor < 0.85 ? (
+        <Typography sx={{ color: "#f48c06", marginX: 3 }}>
+          Moderate Positive Relation
+        </Typography>
+      ) : (
+        <Typography sx={{ color: "#3f834a", marginX: 3 }}>
+          Strong Positive Relation
+        </Typography>
+      )}
 
       <Divider
         variant="middle"
@@ -288,7 +313,7 @@ const Num_Num = ({ fileName, col1, col2, data }: Props) => {
       ) : (
         <Typography>
           Percentage:{" "}
-          <span style={{ color: "warning.main" }}>
+          <span style={{ color: "error.main" }}>
             {((outliers.length * 100) / x.length).toFixed(2)}%
           </span>
         </Typography>

@@ -10,6 +10,8 @@ import Plot from "react-plotly.js";
 import BivariateCountPlot from "./BivariateCode/BivariateCountPlot";
 import { useState } from "react";
 import BivariateStackedBar from "./BivariateCode/BivariateStackedBar";
+import ContingencyTableCode from "./BivariateCode/ContingencyTableCode";
+import ContingencyTable from "../BivariateComponents/ContingencyTable";
 
 interface Props {
   fileName: string;
@@ -151,6 +153,15 @@ const Cat_Cat = ({ fileName, col1, col2, data }: Props) => {
         </Grid>
       )}
 
+      <Divider
+        variant="middle"
+        sx={{ my: 5, bgcolor: "text.primary" }}
+      ></Divider>
+      <Typography sx={{ my: 5, color: "primary.light" }} variant="h3">
+        Contingency Table
+      </Typography>
+      <ContingencyTableCode fileName={fileName} col1={col1} col2={col2} />
+      <ContingencyTable data={data} col1={col1} col2={col2} />
       <Divider
         variant="middle"
         sx={{ my: 5, bgcolor: "text.primary" }}

@@ -42,6 +42,9 @@ Choose any two columns from the dataset and perform a comprehensive comparison:
 <li><b>Statistical Values:</b> Calculate relevant statistical measures, such as correlation coefficients, means, medians, and more, to quantify the relationship between the selected columns.</li>
 </p>
 
+<h3>4. Code</h3>
+<p>Provide appropriate python code to get same results as displayed in app</p>
+
 <h2>Usage</h2>
 <ol>
 <li>Upload a dataset (csv file) by clicking "Browse" or dragging and dropping a csv file</li>

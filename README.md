@@ -11,6 +11,14 @@ App link: <a href='https://enlightened-panda.vercel.app'>https://enlightened-pan
 <p>
 Enlightened Panda is a web application designed to empower data scientists and analysts with the ability to quickly gain insights into datasets stored in CSV files. This user-friendly tool offers a range of features aimed at providing both an overview and in-depth analysis of the data, facilitating better understanding and decision-making.</p>
 
+<h2>Technologies used</h2>
+<ul>
+<li>React for frontend</li>
+<li>Language used: Typescript</li>
+<li>Material UI for components</li>
+<li>Plotly.js library for graphs</li>
+</ul>
+
 <h2>Features</h2>
 <h3>1. Dataset Overview</h3>
 <p>Get a high-level understanding of the dataset's key characteristics. This section offers a summary of the dataset's size, column count, a glimpse of the first few records, data types and discrepancies in data.</p>

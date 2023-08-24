@@ -30,7 +30,7 @@ function App() {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [screen, setScreen] = useState("fileInput");
-
+  // Added analytics
   return (
     <>
       <ThemeProvider theme={colorMode === "light" ? themeLight : themeDark}>

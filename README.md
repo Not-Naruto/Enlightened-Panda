@@ -18,11 +18,11 @@ Enlightened Panda is a web application designed to empower data scientists and a
 <h3>2. Column Analysis</h3>
 <p>Dive deep into each column of the dataset:
 <ul>
-<li>Graphs<li>
-<li>Frequency Distribution Tables [Categorical columns only]<li>
-<li>Statistical Values [Numeric columns only]<li>
-<li>Missing Values<li>
-<li>Outliers [Numeric columns only]<li>
+<li>Graphs</li>
+<li>Frequency Distribution Tables [Categorical columns only]</li>
+<li>Statistical Values [Numeric columns only]</li>
+<li>Missing Values</li>
+<li>Outliers [Numeric columns only]</li>
 <li>Recommended Machine Learning Models</li>
 </ul>
 </p>

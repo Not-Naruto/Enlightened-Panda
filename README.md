@@ -53,4 +53,7 @@ Choose any two columns from the dataset and perform a comprehensive comparison:
 <li>Select the Bivariate Graphs option on the left-aside menu to compare columns</li>
 <li>Select the two columns you wish to compare from the two dropdown menus provided</li>
 
+<h2>Contributing</h2>
+<p>Contributions to the Game Discovery web application are welcome! If you find any bugs or have ideas for new features, please open an issue or submit a pull request.</p>
+
 </ol>
